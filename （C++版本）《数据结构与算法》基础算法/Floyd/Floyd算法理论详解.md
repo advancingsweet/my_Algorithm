@@ -13,31 +13,25 @@
    }G;
    ```
 
-困惑点：
+# 困惑点：
 
-![]()	![问题](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\问题.jpg)
 
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\问题解答.jpg)
 
-![]()
+![[my_Algorithm/问题.jpg at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/问题.jpg)]()
+
+![[my_Algorithm/问题解答.jpg at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/问题解答.jpg)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E9%97%AE%E9%A2%98.jpg)
 
 # 推理过程：
 
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\图一.png)
+![[my_Algorithm/图一.png at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/图一.png)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94.jpg)
 
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\图二.png)
+![[my_Algorithm/图二.png at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/图二.png)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E5%9B%BE%E4%B8%80.png)
 
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\图三.png)
+![[my_Algorithm/图二.png at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/图二.png)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E5%9B%BE%E4%BA%8C.png)
 
+![[my_Algorithm/图二.png at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/图二.png)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E5%9B%BE%E4%BA%8C.png)
 
-
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\推理图二.jpg)
-
-![](C:\Users\Hongwei Tang\Desktop\数据库大作业（第14周周末之前提交）\推理图一.jpg)
-
-
-
-
+![[my_Algorithm/推理图一.jpg at main · advancingsweet/my_Algorithm (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/（C%2B%2B版本）《数据结构与算法》基础算法/Image/推理图一.jpg)](https://github.com/advancingsweet/my_Algorithm/blob/main/%EF%BC%88C%2B%2B%E7%89%88%E6%9C%AC%EF%BC%89%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E3%80%8B%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/Image/%E6%8E%A8%E7%90%86%E5%9B%BE%E4%B8%80.jpg)
 
 # Floyd思路：
 
