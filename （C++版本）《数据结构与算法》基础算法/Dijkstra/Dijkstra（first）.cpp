@@ -1,18 +1,31 @@
+# Dijkstra算法理解：
 
-Dijkstra算法理解：
-1.构建图时，最好先画图，再写数据，一定要注意顶点都相连接了
-2.Dijkstra算法仅适合求一个顶点到其它顶点的最短距离，且其中权值不能有负数
-3.三部曲：
--1.updata（第一个值先于循环处理）  
--2.scan （寻找已有路径中最短路径）  
--3.add（将到未添加顶点的最短路径添加（添加的是顶点））
+1. **Dijkstra算法是基于顶点进行操作，且仅适合求一个顶点到其他任意顶点的最短距离，且其中权值不能有负数。**
 
-4.对于ts[vNum] 数组（the shortest length) : 
--访问都是按照顶点之间的连接路径进行访问，所以所有访问的顶点都是在同一支路上。
--ts[vNum]数值：表示的是从最初的顶点到某一点的距离，所以该距离有两种：1.从最初的顶点直接到达该顶点	2.从最初的顶点经过多个顶点到底该顶点。
+   > > **最短路径Dijkstra算法和最小生成树Prim算法的相同点与不同点：**
+   > >
+   > > - 两个算法中每一个点都会遍历到，且每个点都只便利一次，所以会有标记访问数组vis[ ]。而标记访问数组是用来判读顶点是否被访问，将被访问过的顶点分到集合U中，未被访问的顶点在集合V-U中。
+   > > - **Prim算法只求从源点出发到达所有顶点的最短路径，然后将到所以顶点的最短路径输出**
+   > > - **而Dijkstra算法不仅记录了从源点出发到达所有顶点的最短路径，同时还记录了到每个顶点的最短距离（此为Dijkstra算法与Prim算法唯一的区别！）。但是Dijkstra仅是根据需求，输出源点到某个顶点的最短距离和最短路径**
+
+   
+
+2. 算法三部曲：
+
+   - 1.updata（第一个值先于循环处理）  
+   - 2.scan （寻找已有路径中最短路径）  
+   - 3.add（将到未添加顶点的最短路径添加（添加的是顶点））
+
+3. 对于ts[vNum] 数组（the shortest length) : 
+
+   - 访问都是按照顶点之间的连接路径进行访问，所以所有访问的顶点都是在同一支路上。
+   - ts[vNum]数值：表示的是从最初的顶点到某一点的距离，所以该距离有两种：
+     - 1.从最初的顶点直接到达该顶点	
+     - 2.从最初的顶点经过多个顶点到底该顶点。
 
 
 
+```C++
 #include<iostream>
 #include<vector>
 #include<fstream>
@@ -26,11 +39,9 @@ using namespace std;
 int ts[vNum] = {0};     //记录从一顶点到其余顶点的最短距离
 
 typedef struct Dijkstra{
-
     int edge[vNum][vNum];   //邻接矩阵
     int v;                  //顶点
     int vis[vNum];       // 标记访问数组
-    int weight;         //权值
     vector<int>path;    //动态数组记录最短路径
 }G;
 
@@ -77,7 +88,6 @@ void Dijkstra(G &g,int st)
             ts[i] = g.edge[st][i]; 
         }
         g.path.push_back(st);
-        
     while(count!=g.v){
         count++;
         int miN = Min(ts,g);
@@ -90,7 +100,6 @@ void Dijkstra(G &g,int st)
             if(ts[i]>g.edge[miN][i]+sh) 
                 ts[i] = g.edge[miN][i]+sh;		//三部曲之一： updata
          }   
-        
     }
     ts[st] = 0;
 }
@@ -158,3 +167,5 @@ int main()
 6 0 3 1 4 5 2 
 
 */
+```
+
