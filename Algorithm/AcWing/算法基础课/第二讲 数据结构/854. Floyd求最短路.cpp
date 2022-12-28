@@ -30,7 +30,7 @@
    3 3 7
    3 1 5
    4 5 7
-   1 2 -5				负数
+   1 2 -5				负权值
    5 1 6
    4 3 8
    5 5 6
@@ -77,7 +77,7 @@
 # 2.我的最初代码：（还是错误的，没有考虑负数的情况）
 
 ```c++
-	#include<iostream>
+#include<iostream>
 #include<cstring>
 #include<queue>
 
@@ -159,7 +159,7 @@ int main()
 
 using namespace std;
 
-const int n = 203,m = 20003,INF=1e9;
+const int n = 203,INF=1e9;
 
 int a,b,w;   //定义全局变量，可通用
 typedef struct Graph
