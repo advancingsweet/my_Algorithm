@@ -1,4 +1,6 @@
+```C++
 # /*
+
 fstream　　// 文件流
 ifstream　 // 输入文件流
 ofstream　 // 输出文件流
@@ -21,6 +23,7 @@ typedef struct UND{
     int v;
     int vis[vNum];
     int path[vNum];
+
 }G;
 
 void InitGraph(G& g)
@@ -43,6 +46,7 @@ void InitGraph(G& g)
     }
     f.close();
     return ;
+
 }
 
 int count =0;
@@ -50,6 +54,7 @@ int count =0;
 void bfs(G &g,queue<int>&q)
 {
     
+
     int st = q.front();
         q.pop();
     if(g.vis[st]) bfs(g,q);  //此举是为了防止同层次的顶点相互连接,同时，将重复存放在队列的顶点（除了第一次出现的之外）全部排除
@@ -63,6 +68,7 @@ void bfs(G &g,queue<int>&q)
     }
     if(q.empty())  return;
     bfs(g,q);
+
 }
 
 void write(G g)
@@ -93,3 +99,5 @@ int main()
     bfs(g,q);
     write(g);
 }
+```
+
