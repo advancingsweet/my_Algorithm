@@ -21,7 +21,7 @@ dijkstra：把所有点到 源点 距离dis设成∞ ，每次找到dis最小的
 prim：  把所有点到 集合 的距离dis设成∞ ，每次找到dis最小的点 确定下来(加入到集合中)，并用该点距离更新所有点到集合距离 **dis[i]=min(dis[i],a[t][i])**;
 即：随意找一个起点，每次确定到集合最近的点，直到所有点都确定完！！
 
-由上面的思路区别，不难看出唯一区别就是，dijkstra 更新的是到源点的距离，prim更新的是到集合的距离。
+由上面的思路区别，不难看出唯一区别就是，dijkstra 更新的是到源点的距离，prim更新的是集合到集合的距离。
 
 ## [858. Prim算法求最小生成树](https://www.acwing.com/problem/content/860/)
 
@@ -45,17 +45,17 @@ int Prim()
     memset(d,INF,sizeof d);  // 初始化各顶点到集合的距离
     
     int res = 0;
-    d[1] = 0;
+    d[1] = 0;  // 从那个顶点开始，那个顶点到集合的距离就为0！
     
     for(int i = 0; i < n;i ++)  // 遍历各个顶点到集合的最短距离
     {
-        int t = 0;
+        int t = 0;  
         
         for(int j = 1;j <= n;j ++)  //遍历各个顶点到集合的最短距离
             if(!vis[j] && d[t] > d[j])    //scan     第一次： d[0] == INF > d[1] == 0;
-                t = j;     // t 存放当前距离最小的点
+                t = j;     // t 为d[N]数组中的最小值的下标
         
-        if(d[t] == INF) return INF;  //if(!t) return INF;   说明当前图是不连通的
+        if(d[t] == INF) return INF;  // 说明当前图是不连通的
         vis[t] = true;  //add 
         res += d[t];
        

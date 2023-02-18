@@ -90,3 +90,5 @@ int main()
    >
    > 根节点值相同的就为同一集合的顶点。如果再添加新的边，若是两个顶点的根节点相同，则表示其在同一棵子树中，因此不能连接。
    > 2.也因为无法规定方向，所以kruskal算法无法直接输入最小生成树的顶底顺序。仅能输出形成最小生成树的边。
+   
+   ![image-20230216073329352](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230216073329352.png)
