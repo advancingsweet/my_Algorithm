@@ -4,7 +4,7 @@
 
 [第一届NjtechCPC题解 - 哔哩哔哩 (bilibili.com)](https://www.bilibili.com/read/cv22503861)
 
-
+![比赛结果](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230320000347832.png)
 
 **************
 
@@ -362,12 +362,291 @@ int main()
 
 ****************
 
-# 四、洋洋的决斗（不会）
+# 四、洋洋的决斗
 
 [题目详情 - 洋洋的决斗 - NjtechOnlineJudge](https://acm.online.njtech.edu.cn/p/27?tid=64142356f98cbb3dc66d0539)
+
+![image-20230319232149112](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230319232149112.png)
+
+## 输出
+
+最终扮演那个角色会赢，Allice/Bob
+
+## 输入数据 1
+
+```input1
+14 5
+7 13 1 6 14 2 16 17 18 19 34 36 20 23
+```
+
+## 输出数据 1
+
+```output1
+Alice
+```
+
+## 输入数据 2
+
+```input2
+14 5
+14 20 12 6 0 16 8 11 9 17 13 3 5 19
+```
+
+## 输出数据 2
+
+```output2
+Bob
+```
+
+## 1.赛后代码
+
+```C++
+/*
+	思路：两个人往集合s中填数，n轮后。
+		不在s中的最小自然数如果为奇数， Alice胜
+					    如果为偶数，Bob胜
+			所以如果Alice 想赢，那么Alice就应该尽量去把不在集合s中得偶数填完,才能确保不在s中的最小自然数如果为奇数，从而让自己赢。
+			 而如果Bob想赢，那么Bob就应该尽量去把不在集合s中得奇数填完,才能确保不在s中的最小自然数如果为偶数，从而让自己赢。
+	
+	1.跟谁先插入数没有关系吗？  没有关系。
+	
+	原因： A,B两人都是分别从最小的偶数、奇数开始填，所以两者填的数字互不干涉。且需要填的位置明确且也互不干涉。==> 谁先填谁后填所得到的最终结果一样。
+	
+	而如果不限制填充次数，直到填到数组满足某一条件为止，那么就得考虑先后问题了
+	
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
+using namespace std;
+
+const int N = 200010;
+
+int n,m;
+bool vis[N];
+
+int main()
+{
+	cin>>m>>n;
+	
+	for(int i = 1;i <= m;i ++) 
+		{
+			int x;
+			scanf("%d",&x);
+			vis[x] = 1;
+		}
+	
+	int minOdd = 1,minEven = 0;  // 遍历奇数、偶数
+	
+	while(vis[minOdd]){  // 遍历奇数
+		minO += 2;
+	}
+	
+	while(vis[minEven]){ // 遍历偶数
+		minEven += 2;
+	}
+	
+	for(int i = 1;i <= n;i ++){
+		
+		vis[minOdd] = true;
+		minOdd += 2;
+		
+		while(vis[minOdd]){
+			minOdd += 2;
+		}
+		
+		vis[minEven] = true;
+		while(vis[minEven]){
+			minEven += 2;
+		}		
+	}
+	
+	if(minOdd > minEven) printf("Bob\n");
+	else printf("Alice\n");
+	
+	
+	return 0;
+}
+```
 
 *******************
 
 # 五、NO ONE WIN! (不会)
 
 [题目详情 - NO ONE WIN！ - NjtechOnlineJudge](https://acm.online.njtech.edu.cn/p/25?tid=64142356f98cbb3dc66d0539)
+
+## 代码1
+
+```C++
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+#include<algorithm>
+
+using namespace std;
+
+typedef long long ll;
+
+const ll E = 998244353;
+
+const int N = 510;
+
+ll n,x;
+ll dp[N][N];
+ll combinator[N][N];
+ll qpower[N][N];
+
+
+int main()
+{
+	ll ans;
+	
+	scanf("%lld%lld",&n,&x);
+	
+	for(ll i = 1;i <= 500; i ++{
+		for(ll j = 0; j <= i;j ++){
+			if(j == 0 || j == i){
+				combinator[i][j] = 1;
+				continue;
+			}
+			combinator[i][j] = (combinator[i-1][j-1] + combinator[i-1][j])%E;
+		}
+	)
+	
+	for(ll i = 0;i <= 500;i ++){
+		for(ll j = 0;j <= 500;j ++){
+			if(j == 0){
+				qpower[i][j] = 1;
+				continue;
+			}
+			qpower[i][j] = (qpower[i][j-1]%E);
+		}
+	}
+	
+	ans = qpower[x][n];
+	
+	for(ll i = 1;i <= x; i++) dp[1][i] = 1;
+	
+	for(ll i =1;i <= n;i ++){
+		for(ll j = 1;j <= x;j ++){
+			for(ll k = i-1;k + j <= x && k + 1 <= n;k ++){
+				if(k == 0) continue;
+				dp[k+1][j+k]=(dp[k+1][j+k] + ((dp[i][j] * combinator[k+1][i]) % E * qpower[k][k+1-i])) % E; 
+			}
+		}
+	}
+	
+	for(ll i=1;i<=x;i++)
+        ans=(ans+E-dp[n][i])%E;
+
+    printf("%lld\n",ans);
+
+    return 0; 
+}
+```
+
+## 代码2（师父的代码）
+
+```C++
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MOD=998244353;
+ll C[505][505],dp[505][505],power[505][505];
+int main(){
+    for(int i=0;i<=500;i++) C[i][0]=1,dp[0][i]=1,dp[i][0]=1,power[i][0]=1;
+    
+    for(int i=1;i<=500;i++)
+        for(int j=1;j<=i;j++){
+             C[i][j]=(C[i-1][j]+C[i-1][j-1])%MOD;
+    }
+    for(int i=1;i<=500;i++)
+        for(int j=1;j<=500;j++) power[i][j]=(power[i][j-1]*i)%MOD;
+    
+    int n,x;
+    scanf("%d%d",&n,&x);
+    
+    for(int i=2;i<=n;i++){
+        for(int j=1;j<=x;j++){
+            if(j<=i-1){
+                dp[i][j]=power[j][i];
+                continue;
+            }
+            for(int k=0;k<=i;k++){
+                dp[i][j]+=dp[i-k][j-(i-1)]*C[i][k]%MOD*power[i-1][k]%MOD;
+                dp[i][j]%=MOD;
+            }
+        }
+    }
+    printf("%lld",dp[n][x]);
+    return 0;
+}
+
+```
+
+
+
+## 代码3（我写的代码）
+
+```C++
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<cmath>
+
+using namespace std;
+
+const int N = 510;
+
+int dp[N][N];  // dp[i][j]  总人数为i人，最高血量值为j
+int n,x;
+long long INF = 998244353;
+long long ans = 0;
+
+long long Sum(int k)
+{
+	long long x,y;
+	for(int i = n - k + 1;i <= n;i ++) {
+		x = ( i * x)%INF;
+	}
+	for(int i = 1;i <= k; i++){
+		k = (i * k)%INF;
+	}
+	return x/y;
+}
+
+long long power(int a,int x)
+{
+	long long res = 1;
+	for(int i = 1; i <= x; i ++){
+		res = (res * a)%INF;
+	}
+	
+	return ans;
+}
+
+int main()
+{
+	cin>>n>>x;
+	
+	for(int i = 1;i <= n; i ++) dp[i][1] = 1;  // 血量	
+	for(int i = 1;i <= x; i ++) dp[1][i] = 1;
+	
+	for(int i = 1;i <= n;i ++){  // i表示人数
+		for(int j = 1;j <= x;j ++){ // j 代表最高血量
+			for(int k = 0;k <= i;k ++ ){ // k表示死亡人数
+			  ans = ans + dp[i - k][j - (i-1)] * Sum(k) * power(i-1,k);
+		}
+		dp[i][j] = ans%INF;
+      }
+	}
+	
+	cout<<dp[n][x]<<endl;
+	
+	return 0;
+}
+```
+
