@@ -1,4 +1,4 @@
-# 第一届NjtechCPC题解(仅校园网可入)
+# 第一届NjtechCPC(仅校园网可入)
 
 [比赛详情 - NjtechOnlineJudge](https://acm.online.njtech.edu.cn/contest/64142356f98cbb3dc66d0539)
 
@@ -185,18 +185,146 @@ int main()
 4
 ```
 
-## 1.赛后代码
+## 1.赛后代码（1）
 
+```C++
+/*
+	并查集
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
+// 利用并查集图论
+using namespace std;
+
+const int N = 1010;
+
+int p[N];
+int n,m,k;
+int cnt[N];
+long long ans = 1; //因为数很大，所以最好取long long 作为数据类型
+int INF = 1000000007;
+
+int find(int x)    // 路径压缩，查找跟节点
+{
+	if(x != p[x]) p[x] = find(p[x]);
+	return p[x];
+}
+
+void combine(int x,int y)
+{
+	// 似乎没有考虑根节点合并的情况
+	//p[x] = p[y] = min(find(x),find(y)); 仅仅是合并x,y单独两个点，若x,y属于两个集合，那么这样连接就会出现错误
+	p[find(x)] = p[find(y)] = min(find(x),find(y));  // 1.将x,y单独两个点合并。 2.将x,y两个集合进行合并。
+}
+
+int main()
+{
+	cin>>n>>m>>k;
+	
+	for(int i = 0;i <= n;i ++) p[i] = i;
+	
+	for(int i = 1;i <= m;i ++)
+	{
+		int x,y;
+		scanf("%d%d",&x,&y);
+		combine(x,y);	
+	}
+	
+	int val = 0;
+	for(int i = 1;i <= n;i ++)
+	{
+		if(p[i] == i){  // 发现根节点 
+			for(int j = 1;j <= n;j ++){   
+			//没有考虑根节点合并的情况	if(p[j] == i && i != j) cnt[i] ++;  统计每个连通分量的节点个数
+			   if(find(j) == i && i != j) cnt[i] ++;
+			}
+			val += cnt[i];  // 将连通分量的生成最小生成树的边数相加
+		}	
+	}
+	
+	for(int i = 1;i <= val;i ++)
+		{
+			ans *= k;
+			ans %= INF;    // 边乘边取余，防止爆内存
+		}
+	
+	cout<<ans<<endl;
+	
+	return 0;
+}
 ```
 
+## 赛后代码（2）
+
+```C++
+/*
+	dfs(深度优先搜索)  但仅过了7组数据，还有13组数据没过
+	
+	原因： ans 的数据范围开的是 int 。尽管是边乘变取余，但是也存在乘法已经爆了，无法取余的情况存在
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
+using namespace std;
+
+const int N = 1010;
+
+int vis[N]; 
+int n,m,k;
+int g[N][N];
+// int ans = 1;  错误
+long long ans = 1;
+int cnt;
+int INF = 1000000007;
+
+void dfs(int u)
+{
+	vis[u] = 1;	
+	for(int i = 1;i <= n; i++)
+		if(!vis[i] && g[u][i]) dfs(i);
+}
+
+int main()
+{
+	cin>>n>>m>>k;
+	
+	for(int i = 1;i <= m;i ++)
+	{
+		int x,y;
+		scanf("%d%d",&x,&y);
+		g[x][y] = g[y][x] = 1;
+	}
+	for(int i = 1;i <= n;i ++)
+	{
+		if(!vis[i]){
+			cnt ++;
+			dfs(i);
+		}
+	}
+	for(int i = 1;i <= (n-cnt);i++){
+		ans *= k;
+		ans %= INF;
+	}
+	cout<<ans<<endl;
+	
+	return 0;
+}
 ```
+
+
 
 ## 2.提交的代码
 
 ```C++
 /*
-	比赛过程中仅仅想：过滤掉重复认识的同伴： 类似 2-3 与 3-2 组合。每一组仅计算一次。
-	实际思想：相互认识的一个群体
+	比赛过程中仅仅想：过滤掉重复认识的同伴： 类似 2-3 与 3-2 组合。每一组仅计算一次。 （错误）
+					仅考虑了认识关系是否重合（边是否重合） 
+					未考虑同伴与同伴的认识关系是否构成闭环（图存在环）  ： 1-2， 2-3，3-1。但是，当1，2都比3先到时，仅算1-2与（1，2）-3 两次
 */
 #include<iostream>
 #include<cstring>

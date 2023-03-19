@@ -1,14 +1,17 @@
 # AcWing 897. 最长公共子序列
 
-### 1.[AcWing 897. 最长公共子序列](https://www.acwing.com/activity/content/problem/content/1005/)
+## 1.[AcWing 897. 最长公共子序列](https://www.acwing.com/activity/content/problem/content/1005/)
 
-### 2.[超级无敌解释！！！图解无敌](https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html#%E6%80%9D%E8%B7%AF)
+## 2.[超级无敌解释！！！图解无敌](https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html#%E6%80%9D%E8%B7%AF)
 
-### 3.[y式dp分析法](https://www.acwing.com/solution/content/8111/)
+## 3.[y式dp分析法](https://www.acwing.com/solution/content/8111/)
 
 <img src="C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230319120324077.png" alt="image-20230319120324077" style="zoom:67%;" />
 
-（箭头移动即代表状态转移、状态继承）
+tips:
+
+1. 箭头移动即代表状态转移、状态继承
+2. 子序列 不等同于 子串（连续子序列)
 
 ```C++
 #include<iostream>  
