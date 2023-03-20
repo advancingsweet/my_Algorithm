@@ -574,7 +574,7 @@ using namespace std;
 const int MOD=998244353;
 ll C[505][505],dp[505][505],power[505][505]; // C表示组合数   power(i,j) 表示i的j次方
 int main(){
-    for(int i=0;i<=500;i++) C[i][0]=1,power[i][0]=1，dp[0][i]=1,dp[i][0]=1;
+    for(int i=0;i<=500;i++) C[i][0]=1,power[i][0]=1,dp[0][i]=1,dp[i][0]=1;
     				                        //dp[0][i] = 1 表示人数为0
     for(int i=1;i<=500;i++)
         for(int j=1;j<=i;j++){
@@ -666,5 +666,61 @@ int main()
 	
 	return 0;
 }
+```
+
+```C++
+	#include<iostream>
+	#include<cstring>
+	#include<algorithm>
+	#include<cstdio>
+	
+	using namespace std;
+	
+	const int N = 505;
+	
+	long long INF = 998244353;
+	long long C[N][N],power[N][N],dp[N][N];
+	int n,x;
+	
+	int main()
+	{
+		for(int i = 0;i <= 500; i ++) 
+			C[i][0] = 1,power[i][0] = 1,dp[i][0] = 1,dp[0][i] = 1;
+			//C[i][0] = 1,power[0][i] = 1,dp[0][i] = 1,dp[i][0] = 1;
+		
+		for(int i = 1;i <= 500;i ++){
+			for(int j = 1;j <= i;j ++){
+				//C[i][j] = C[i-1][j] + C[i-1][j-1];
+				C[i][j] = (C[i-1][j] + C[i-1][j-1]) % INF;
+			}
+		}
+	
+	//	for(int i = 1; i <= N;i ++)
+	//		for(int j = 1;j <= N;j ++)
+	//			power[i][j] = ( power[i][j-1] * i ) % INF;
+		for(int i = 1;i <= 500;i ++)
+			for(int j = 1;j <= 500;j ++)
+				//power[i][j] = (power[i][i-1] * i) % INF;
+				power[i][j] = power[i][j-1] * i % INF;
+		
+		cin >> n >> x;
+		
+		for(int i = 2;i <= n;i ++){  // 人数一定得从第二个人开始，一个人的情况均为0（全局变量自动赋值）
+			for(int j = 1;j <= x;j ++){
+			if(j <= i - 1){ // 最高血量少于 i-1滴血. i人全死
+				dp[i][j] = power[j][i]; // j的i次方
+				continue;
+			}
+			for(int k = 0;k <= i; k ++){
+				   dp[i][j] += dp[i-k][j - (i-1)] * C[i][k] % INF * power[i-1][k] % INF;
+			       dp[i][j] %= INF;
+			}
+		}
+	}
+			cout<<dp[n][x]<<endl;		
+				
+		return 0;
+	}
+
 ```
 
