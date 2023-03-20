@@ -120,12 +120,74 @@ int main()
 
 ### [AcWing 756. 蛇形矩阵 ](https://www.acwing.com/problem/content/description/758/)
 
+#### (1.y总代码
+
+```C++
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
+using namespace std;
+
+const int N = 110;
+
+int n,m;
+int dp[N][N];
+int x,y;
+
+int dx[] = {0,1,0,-1},dy[] = { 1,0,-1,-0};
+
+int main()
+{
+    cin >> n >> m;
+    
+    int u = 0;
+    
+    for(int i = 1;i <= n * m;i ++){
+        
+         dp[x][y] = i;
+         
+         x += dx[u],y += dy[u];
+        
+        if(x < 0 || y < 0 || x >= n|| y >= m || dp[x][y] ){ // 处理边界
+        
+            x -= dx[u], y -= dy[u]; // 从边界拉回
+            
+            u = (u + 1) % 4;
+            
+            x += dx[u], y += dy[u];
+        }
+    }
+    
+    for(int i = 0;i < n; i++){
+        
+        for(int j = 0; j < m;j ++)
+        
+            printf("%d ",dp[i][j]);
+            
+        cout<<endl;
+    }
+    
+    return 0;
+    
+}
+```
+
+
+
+#### (2.本菜鸟代码（真的有被自己蠢到：2023.3.20.23:32 ,这不得把重要时间记下来吗？）
+
 ```C++
 /*
-	我的代码  未ac
+    本菜鸟代码，AC不了，如果以后自己变厉害了，请回头再看看吧。
+    写的什么狗东西啊，边界条件边界条件判断不清，特判条件判断不清，各种的问题bug。
 */
-
 #include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
 using namespace std;
 
 const int N = 110;
@@ -133,55 +195,69 @@ const int N = 110;
 long long  dp[N][N];
 int n,m;
 long long ans = 1;
-int x = 0,y = 0;
+int x = 1,y = 1;
 
 int main()
 {
-    cin >> n >> m;
+    cin >> m>>n;
+    int s = n * m;
+    cout<<s<<endl;
     
-    for(int i = 0;i <= n;i ++) dp[i][m] = -1;
-    for(int i = 0;i <= m;i ++) dp[n][i] = -1;   // 将最外层用值包起来
+    for(int i = 0;i <= m + 1;i ++) dp[i][n+1] = -1,dp[i][0] = -1;  // 列
+    for(int i = 0;i <= n + 1;i ++) dp[m+1][i] = -1,dp[0][i] = -1;   //  行  将最外层用值包起来
     
-    dp[0][0] = 1;
+    dp[1][1] = 1;
     
-    while(ans <= n * m){
+    while(s--){
         //向右移动
-       
-        while(!dp[x][++y] && y < m){
-            dp[x][y] = ++ ans;
-        }
-        if(dp[x][y]) y --;
         
+        while(!dp[x][++y] && y <= m ){
+            dp[x][y] = ++ ans;
+            
+           printf("右移: %d %d %d\n",x,y,dp[x][y]);
+        }
+        if(dp[x][y] == -1) --y,++x,dp[x][y] = ++ ans;
+        printf("x = %d y = %d dp[x][y] = %d\n\n",x,y,dp[x][y]);
+       
         
         // 向下移动
         
-        while(!dp[++x][y] && x < n){
+        while(!dp[++x][y] && x <= n ){
+
             dp[x][y] = ++ ans;
+            printf("下移: %d %d %d\n",x,y,dp[x][y]);
         }
-        if(dp[x][y]) x --;
+        if(dp[x][y] == -1) --x ,--y,dp[x][y] = ++ ans;
+        printf("x = %d y = %d dp[x][y] = %d\n\n",x,y,dp[x][y]);
+       
         
         // 向左偏移
         
-        while(!dp[x][--y] && y >= 0){
+        while(!dp[x][--y] && y >= 1 ){
+
             dp[x][y] = ++ ans;
+            
+            printf("左移: %d %d %d\n",x,y,dp[x][y]);
         }
-        while( y == -1 || dp[x][y]) {
-            cout<<y<<endl;
-            y ++;  // 退回
-        }
+        if( dp[x][y] == -1)   ++ y,--x,dp[x][y] = ++ ans;  // 退回
+        printf("x = %d y = %d dp[x][y] = %d\n\n",x,y,dp[x][y]);
+        
+        
         // 向上偏移
         
-        while(!dp[--x][y] && x >= 0){
+        while(!dp[--x][y] && x >= 1){
             dp[x][y] = ++ ans;
+            printf("上移: %d %d %d\n",x,y,dp[x][y]);
         }
-        while(x == -1 || dp[x][y])  ++ x; // 退回
+        if(dp[x][y] == -1)  ++ x,++y,dp[x][y] = ++ ans; // 退回
+        printf("x = %d y = %d dp[x][y] = %d\n\n",x,y,dp[x][y]);
         
     }
     
     cout<<endl;
     
-    for(int i = 0;i <= n;i ++){
-        for(int j = 0;j <= m;j ++){
+    for(int i = 1;i <= n;i ++){
+        for(int j = 1;j <= m;j ++){
             printf("%d  ",dp[i][j]);
         }
         puts("");
@@ -189,7 +265,6 @@ int main()
     
     return 0;
 }
-
 ```
 
 ***********
@@ -200,16 +275,20 @@ int main()
 
 ![image-20230320193038520](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230320193038520.png)
 
-```C++
-/*
-	思路：将各边看作点，然后各边相邻 <==> 各点相连接
-	
-	利用递归遍历所有种选择，对于每一个钟选择，利用并查集： 两点均被访问 且 两点之间相互联通加入一个集合（注意有可能是各集合的根节点相连）。
-	
-	最后通过遍历p[N]数组，查找 既被访问过的顶点以及用该顶点作为根节点的个数。 如果只有一个，那么表示只有一个连通子图，满足题意，如果有>= 2.那么不满足要求。
-	
-*/
 
+
+>
+> ​	思路：将各边看作点，然后各边相邻 <==> 各点相连接
+>
+> 	利用递归遍历所有种选择，对于每一个钟选择，利用并查集： 两点均被访问 且 两点之间相互联通加入一个集合（注意有可能是各集合的根节点相连）。
+> 	
+> 	最后通过遍历p[N]数组，查找 既被访问过的顶点以及用该顶点作为根节点的个数。 如果只有一个，那么表示只有一个连通子图，满足题意，如果有>= 2.那么不满足要求。
+>
+> 
+
+
+
+```C++
 #include<iostream>
 #include<algorithm>
 
