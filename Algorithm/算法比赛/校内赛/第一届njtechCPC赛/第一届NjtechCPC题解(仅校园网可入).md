@@ -473,11 +473,27 @@ int main()
 
 *******************
 
-# 五、NO ONE WIN! (不会)
+# 五、NO ONE WIN! (动规，好难！)
 
 [题目详情 - NO ONE WIN！ - NjtechOnlineJudge](https://acm.online.njtech.edu.cn/p/25?tid=64142356f98cbb3dc66d0539)
 
-## 代码1
+## 结题思路（师父）：
+
+> dp[i][j] 表示有i个人的时候，血量上限是j的时候有多少种没有人赢的方案数字
+>
+> 在开始第一轮攻击的时候，设这一轮中共有n个人，初始血量上限是x。那么第一轮下来，没人都需要扣掉n-1滴血量(每个人都是同时发起攻击，攻击顺序没有先后）。并且会死若干人，假设死亡人数为k，那么k = 0 - n 之间的数字。
+>
+> 假设把第二轮看成是一个从头开始的游戏，那么可以推测出dp[n][x]一定会和dp[n-k][x-(n-1)]存在某种递推关系。
+>
+> 在第一轮攻击结束后，接着把其结束状态当做是新的一场游戏，那么人数就是n-k个，血量上限是x-(n-1).问题思考又与上面重合。
+>
+> 接着我们对于每一轮攻击，去枚举死亡人数，死了哪几个，死的人初始血量是多少。得到递推公式：
+>
+> dp[i][j] = sigma k=0 to i (dp[i-k][j-(i-1)]*C(k,n)*power(i-1,k))；
+
+![image-20230320201809997](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230320201809997.png)
+
+## 代码1（解释在哔哩哔哩链接中）
 
 ```C++
 #include<iostream>
@@ -549,34 +565,36 @@ int main()
 
 ## 代码2（师父的代码）
 
+### [【算法竞赛】杨辉三角 | 杨辉三角与组合数的关系 | 杨辉三角的算法应用 | c++代码实现公式获取杨辉三角位置的值_MuShan-bit的博客-CSDN博客](https://blog.csdn.net/MuShan_bit/article/details/122833631)
+
 ```C++
 #include <bits/stdc++.h>
-#define ll long long
+#define ll long long   
 using namespace std;
 const int MOD=998244353;
-ll C[505][505],dp[505][505],power[505][505];
+ll C[505][505],dp[505][505],power[505][505]; // C表示组合数   power(i,j) 表示i的j次方
 int main(){
-    for(int i=0;i<=500;i++) C[i][0]=1,dp[0][i]=1,dp[i][0]=1,power[i][0]=1;
-    
+    for(int i=0;i<=500;i++) C[i][0]=1,power[i][0]=1，dp[0][i]=1,dp[i][0]=1;
+    				                        //dp[0][i] = 1 表示人数为0
     for(int i=1;i<=500;i++)
         for(int j=1;j<=i;j++){
-             C[i][j]=(C[i-1][j]+C[i-1][j-1])%MOD;
-    }
-    for(int i=1;i<=500;i++)
+             C[i][j]=(C[i-1][j]+C[i-1][j-1])%MOD;  // 利用杨辉三角求组合数。因为下方需要遍历，所以直接将所以组合数求出并存放于数组中
+    }											// 需要用到的次数很多，所以直接一次计算出并将其存储最为合理。
+    for(int i=1;i<=500;i++)       
         for(int j=1;j<=500;j++) power[i][j]=(power[i][j-1]*i)%MOD;
-    
+    								          // 利用数组存放i的j-1次方。一次全部计算并存储起来之后再调用比用一次计算一次快很多！！！
     int n,x;
     scanf("%d%d",&n,&x);
     
-    for(int i=2;i<=n;i++){
-        for(int j=1;j<=x;j++){
-            if(j<=i-1){
-                dp[i][j]=power[j][i];
+    for(int i=2;i<=n;i++){     // 人数
+        for(int j=1;j<=x;j++){ //  血量
+            if(j<=i-1){   // 一轮i人参加，一轮下来每人扣i-1滴血，扣除的血量>血的上限值，那么直接全部死光
+                dp[i][j]=power[j][i];  // 死亡人数仅有一种选择， 血量值的选择： 0~j，i个人， 那么就是 j的i次方
                 continue;
             }
-            for(int k=0;k<=i;k++){
-                dp[i][j]+=dp[i-k][j-(i-1)]*C[i][k]%MOD*power[i-1][k]%MOD;
-                dp[i][j]%=MOD;
+            for(int k=0;k<=i;k++){        
+                dp[i][j]+=dp[i-k][j-(i-1)]*C[i][k]%MOD*power[i-1][k]%MOD; // 注意分开取余，不然很容易直接爆内存
+                dp[i][j]%=MOD;  // 取余！！！ 遇到数据大的题目，一定一定要记得操作一次取一次余
             }
         }
     }
