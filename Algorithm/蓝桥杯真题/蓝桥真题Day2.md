@@ -110,6 +110,7 @@ int main()
 > 2.遍历dy，dx，（等同于遍历 k），然后再遍历（x,y), 将所有的（斜率，截距）组合存储起来。然后再将其组合按照斜率、截距的从小到大排序。最后去除相同的（斜率，截距）组合，从而得到的就是不重合的直线
 
 ```C++
+// 未能AC！！！ 啊啊啊，自己写的就完全ac不了，痛苦至极！！！
 #include<iostream>
 #include<cstdio>
 #include<cstring>
@@ -144,7 +145,6 @@ int main()
 					lines[cnt++] = { dy * 1.0 / dx,y - x * dy * 1.0 / dx};
 				}
 		}
-    
 	sort(lines,lines + cnt);
 	
 	double k = lines[0].k,y = lines[0].y;
@@ -155,6 +155,129 @@ int main()
 	}
 	
 	cout<<ans<<endl;
+	
+	return 0;
+}
+```
+
+### 典型错例
+
+> 错误原因：
+>
+> **精度丢失！**
+>
+> ```C++
+> // 精度丢失
+> for(double i = 0;i < 420;i ++)
+> 		for(double j = 0;j < 420;j ++){
+> 			if(lines[i].x != lines[j].x && lines[i].y != lines[j].y){
+> 				double k = (lines[i].y- lines[j].y)/(lines[i].x - lines[j].x); // 存在一定的精度丢失。
+> 				double b = lines[i].y - k * lines[i].x;  // 错误，k存在精度丢失，因此不能使用截距式，只能只用一般式
+> 				lin.insert({k,b});
+> 			}
+> 		}
+> 
+> // 组织精度丢失
+> for(int i = 0;i < 420;i ++)
+> 	for(int j = 0;j < 420;j ++){	
+> 		if(p[i].x != p[j].x && p[i].y != p[j].y){  // 将所有平行于x、y坐标的点剔除。输出时直接加上。
+> 			double k = (p[i].y - p[j].y)/(p[i].x - p[j].x);   // 求k值存在精度缺失
+> 			double b = ((p[i].x - p[j].x) * p[i].y -  // 所以不能再用精度缺失的值k再来计算截距。 所以只能使用一般式
+> 			(p[i].y - p[j].y) * p[i].x)/ (p[i].x - p[j].x);
+> 			lines.insert({k,b});
+> 			}
+> 		}
+> ```
+>
+> 
+
+```C++
+// 典型错例 ： 精度丢失！
+#include<iostream>
+#include<set>
+
+using namespace std;
+
+int cnt;
+
+struct line{
+	double x,y;
+};
+int main()
+{
+	line lines[440];
+		
+	for(double i = 0;i <= 19;i ++)
+		for(double j = 0;j <= 20;j ++)
+			{
+				lines[cnt].x = i;
+				lines[cnt++].y = j;
+			}
+		
+		cout<<cnt<<endl;
+		
+		set<pair<double,double>>lin;
+	for(double i = 0;i < 420;i ++)
+		for(double j = 0;j < 420;j ++){
+			if(lines[i].x != lines[j].x && lines[i].y != lines[j].y){
+				double k = (lines[i].y- lines[j].y)/(lines[i].x - lines[j].x); // 存在一定的精度丢失。
+				double b = lines[i].y - k * lines[i].x;  // 错误，k存在精度丢失，因此不能使用截距式，只能只用一般式
+				lin.insert({k,b});
+			}
+			
+		}
+			
+	cout<<lin.size() + 20 + 21<<endl;
+	
+	return 0;
+}
+
+```
+
+### 可AC代码
+
+> 思路：
+>
+> 1. 先将所有点都存储起来
+> 2. 然后再利用双重循环，遍历每一个点于其它剩余点的斜率（注意判别条件）
+
+```C++
+#include<iostream>
+#include<set>
+
+using namespace std;
+
+struct point{
+	double x,y;
+};
+
+int main()
+{
+	point p[430];
+	
+	int now = 0;
+	
+	for(double i = 0;i <= 19;i ++)
+		for(double j = 0;j <= 20;j ++)
+			{
+				p[now].x = i;
+				p[now++].y = j;
+			}
+		
+	set<pair<double,double>>lines;
+	
+	for(int i = 0;i < 420;i ++)
+		for(int j = 0;j < 420;j ++){	
+			if(p[i].x != p[j].x && p[i].y != p[j].y){  // 将所有平行于x、y坐标的点剔除。输出时直接加上。
+				double k = (p[i].y - p[j].y)/(p[i].x - p[j].x);   // 求k值存在精度缺失
+				double b = ((p[i].x - p[j].x) * p[i].y -   // 所以不能再用精度缺失的值k再来计算截距。 所以不能利用截距式和点斜式，而是用一般式
+							(p[i].y - p[j].y) * p[i].x)/ (p[i].x - p[j].x);
+				lines.insert({k,b});
+			}
+		}
+			
+	cout<<lines.size() + 20 + 21<<endl;
+	
 	
 	return 0;
 }
