@@ -69,7 +69,61 @@ int main()
 
 > 思路：
 >
-> 将字母强制转换成数字存储到数组中，然后遍历一次数组再按顺序输出即可。
+> 1.将字母强制转换成数字存储到数组中，然后遍历一次数组再按顺序输出即可。
+>
+> 进制数转换模板： 数n 由进制radix1 转换成 radix2
+>
+> ```C++
+> #include<iostream>
+> #include<cstring>
+> 
+> 
+> using namespace std;
+> 
+> 
+> int change(string &s,int radix1,int radix2)   //  s 由 radix1 进制转化成 radix2
+> {
+> 	int ans = 0;
+> 	
+> 	for(int i = 0; i < s.size();i ++)
+> 	{
+> 		char t = s[i];
+> 		if(t >= '0' && t <= '9') ans = ans * radix1 + t - '0';
+> 		else ans = ans * radix1 + t - 'A' + 10;
+> 	}
+> 	
+> 	int cnt = 0;
+> 	int arr[1000];
+> 	
+> 	while(ans){
+> 		arr[cnt++] = ans % radix2;
+> 		ans /= radix2;
+> 	}
+> 	
+> 	for(int i = 0;i < cnt;i ++)
+> 		ans = ans * 10 + arr[i];
+> 	
+> 	return ans;
+> }
+> 
+> int main()
+> {
+> 	long long n;
+> 	int radix1,radix2;
+> 	
+> 	cin>>n>>radix1>>radix2;
+> 	
+> 	string s = to_string(n);  // 将数字转化成字符串  to_string;
+> 	
+> 	int ans =  change(s,radix1,radix2);
+> 	
+> 	cout<<ans<<endl;
+> 	
+> 	return 0;
+> }
+> ```
+>
+> 
 
 ```C++
 #include<iostream>
