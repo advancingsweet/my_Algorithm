@@ -71,10 +71,12 @@ int main()
 
 > **进制数转换模板： 数n 由进制radix1 转换成 radix2**
 >
+> **转换思路：将radix1进制数数先转化成 10进制，然后再由十进制转换成radix2进制数。**
+>
 > ```C++
 >#include<iostream>
 > #include<cstring>
->
+> 
 > 
 > using namespace std;
 > 
@@ -84,33 +86,33 @@ int main()
 > 	int ans = 0;
 > 
 > 	for(int i = 0; i < s.size();i ++)
-> 	{
+> 		{
 > 		char t = s[i];
-> 			if(t >= '0' && t <= '9') ans = ans * radix1 + t - '0';
+> 		if(t >= '0' && t <= '9') ans = ans * radix1 + t - '0';
 > 		else ans = ans * radix1 + t - 'A' + 10;
 > 	}
 > 
 > 	int cnt = 0;
-> 	int arr[1000];
+> 		int arr[1000];
 > 
-> 		while(ans){
-> 		arr[cnt++] = ans % radix2;
+> 	while(ans){
+> 			arr[cnt++] = ans % radix2;
 > 		ans /= radix2;
-> 		}
+> 	}
 > 
 > 	for(int i = 0;i < cnt;i ++)
-> 		ans = ans * 10 + arr[i];
+> 			ans = ans * 10 + arr[i];
 > 
-> 		return ans;
-> }
+> 	return ans;
+> 	}
 > 
-> 	int main()
+> int main()
 > {
 > 	long long n;
 > 	int radix1,radix2;
 > 
 > 	cin>>n>>radix1>>radix2;
-> 
+> 	
 > 	string s = to_string(n);  // 将数字转化成字符串  to_string;
 > 	
 > 	int ans =  change(s,radix1,radix2);
@@ -120,7 +122,7 @@ int main()
 > 	return 0;
 > 	}
 > ```
-> 	
+> 
 > 
 
 ```C++
