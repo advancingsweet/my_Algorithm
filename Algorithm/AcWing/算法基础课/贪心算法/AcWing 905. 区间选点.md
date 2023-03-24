@@ -13,6 +13,8 @@
 > <img src="C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230322205806937.png" alt="image-20230322205806937" style="zoom:25%;" />
 >
 > 由图逐步分析可知，边一条一条遍历，没有遗漏。且经过对右端点的排序，不存在某一段区间（小），同时与两段区间（大区间，且右端点不相同）完全重合（被包裹了）。
+>
+> **3.一定一定要注意顺序！！！ 结构体变量定义的顺序！！ 数据读取的顺序！！！数据存入结构体的顺序！！！**
 
 ```C++
 #include<iostream>
@@ -27,7 +29,7 @@ long long l,r;
 
 struct line
 {
-    long long left,right;
+    long long left,right;  // 赋值顺序 先左后右！！千万千万不能出错！！！
     
     bool operator<(const line & l)const
     {
@@ -42,9 +44,9 @@ int main()
     
     for(int i = 0;i < n;i ++){   // sort 是从下标0开始排序，所以存储时应该从下标0开始
         
-        scanf("%lld%lld",&l,&r);
+        scanf("%lld%lld",&l,&r);  // 一定一定要注意顺序！！
         
-        lines[i] = { l, r};
+        lines[i] = { l, r};  // 赋值顺序一定一定得按照结构体定义顺序进行赋值！！！
     }
     
     sort(lines,lines + n);
