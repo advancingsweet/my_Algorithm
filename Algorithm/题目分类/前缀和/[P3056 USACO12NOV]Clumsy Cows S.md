@@ -1,6 +1,68 @@
 # [P3056 [USACO12NOV\]Clumsy Cows S](https://www.luogu.com.cn/problem/P3056)
 
+> **1.思路：**
+>
+> **对于字符串，从左向右遍历，如果遇到左括弧，left ++ 。当遇到右括弧时，分两种情况判断：**
+>
+> - **情况一：在此之前有左括弧，那么可以与之匹配， left --。**
+> - **情况二：在此之前没有左括弧，那么将其改成左括弧， left ++，change ++；**
+>
+> **最后：**
+>
+> ```C++
+> int ans = change + (left)/2;    // left 一定为偶数，所以不需要可以讲所以样例一同考虑，而不需要单独考虑样例四。
+> ```
+>
+> 
+>
+> **2.样例分析：**
+>
+> <img src="C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230325173148642.png" alt="image-20230325173148642" style="zoom: 50%;" />
+>
+> **3.题目总结：**
+>
+> **此题耗时很久，并且写代码时都没有彻底理解题意。同时，也对样例的可能没有想透彻。**
+
+## AC(16 / 16)
+
+```C++
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+const int N = 1000000;
+char s[N];
+
+int main()
+{
+	cin >> s;
+	
+	int left = 0,ans = 0,change = 0;
+	
+	for(int i = 0;i < strlen(s);i ++){	
+			if(s[i] == '('){
+				left ++;  // 待匹配得左括号
+			}
+			if(s[i] == ')'){
+				if(left) left --;  // 与前面已有的左括号相匹配
+				else  change ++,left ++;   //  左边多的无法匹配的 右括号
+			}
+	}
+	ans = change + left/2;
+	
+	cout << ans <<endl;
+	
+	return 0;
+	
+}
+```
+
+
+
 ## 第一次：AC(2 / 16)
+
+> **没有理解题意（英文没有看懂），理解成了添加多少个括号可将其全部匹对**
 
 ```c++
 #include<iostream>
@@ -26,8 +88,7 @@ int main()
 				else  change ++;
 			}
 	}
-	
-	cout<< (left + change) <<endl;
+	cout<< (left + change) <<endl;    
 	return 0;
 	
 }
@@ -36,6 +97,8 @@ int main()
 
 
 ##  第二次：AC（12 / 16)
+
+> 还是没理解题意！
 
 ```C++
 #include<iostream>
@@ -63,12 +126,10 @@ int main()
 			}
 	}
 	
-	if(left && change) cout<<left + change<<endl;
+	if(left && change) cout<<left + change<<endl;   // 此种情况仅仅是
 	else cout<< (left + change)/2 <<endl;
 	
-	
 	return 0;
-	
 }
 ```
 
@@ -108,11 +169,8 @@ int main()
         else ans = left + right;
    }
 	else ans = (left + right)/2 ;            // left && right == 0;
-	
 	cout << ans <<endl;
-	
 	return 0;
-	
 }
 ```
 
@@ -148,14 +206,6 @@ int main()
 		ans = Min/2 + 2 + right/2;
 	}
 	else ans = (right + left)/2;
-//	if(left == right) ans = left + right;  // 相等
-//	else   if(left && right ) {   // 不相等且均有值
-//				int Min = min(left,right);
-//				int Max = max(left,right);
-//				ans = Min + (Max + Min)/2;
-//		}
-//	else ans = (left + right)/2 ;      // 既不相等 且 只有单边         // left && right == 0;
-	
 	cout << ans <<endl;
 	
 	return 0;
