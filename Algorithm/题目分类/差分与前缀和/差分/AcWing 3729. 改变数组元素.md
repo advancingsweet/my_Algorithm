@@ -1,51 +1,125 @@
-# [AcWing 3729. 改变数组元素](https://www.acwing.com/problem/content/3732/)
+# AcWing 3729. 改变数组元素   [原题链接](https://www.acwing.com/problem/content/3732/)
 
-> **知识点：**
+> **此题总结**
 >
-> **1.[memset的用法详解](https://blog.csdn.net/weixin_44162361/article/details/115790452?ops_request_misc=%7B%22request%5Fid%22%3A%22167979340316800226597156%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&request_id=167979340316800226597156&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-115790452-null-null.142^v76^insert_down2,201^v4^add_ask,239^v2^insert_chatgpt&utm_term=memset函数&spm=1018.2226.3001.4187)**
+> **由于各种概念没弄懂，错误非常多！逻辑错误！思考不全面**
+>
+> 1.  **如错误示例二： 第15行，仅考虑了当前处理长度大于等于数组长度，b[1] += 1; 但压根没考虑到此时数据读取还没有结束。即 b[1] += 1 会继续影响b[ i + 1] 及之后的数据！！！**
+> 2. **又如错误示例一： 用差分数组读取元素！！！（正错误输出已列出，自行分析！）**
 
-## 1.(8 / 10) [Time Limit Exceeded](https://www.acwing.com/problem/content/submission/code_detail/23680194/)
-
-> 直接爆搜，没有技巧，全是感情
+## **1. 错误示例一！！！**
 
 ```C++
 #include<iostream>
 #include<cstring>
-
 using namespace std;
-
 const int N = 200010;
-
-int T,n;
-int a[N];
-int v[N];
-int head,rear,p;
+int b[N],n,m;
 
 int main()
 {
-    cin >> T;
-    
-    while(T--){
-        
-        memset(v,0,sizeof v);  // 全部初始化为0
-        
-        cin >> n;
-        
-        head = 1,rear = n,p = 1;
-        
-        for(int i = 1;i <= n;i ++) 
-           {
-               scanf("%d",&a[i]);
-               
-               if(i <= a[i]) memset(v,1,sizeof i);
-               
-               for(int j = i;j >= i - a[i] + 1;j --) v[j] = 1;
-           }
-        for(int i = 1;i <= n;i ++) printf("%d ",v[i]);
-        
-        puts("");
+    cin >> n;
+    while(n -- ){
+        cin >> m;
+        memset(b,0,sizeof b);
+        for(int i = 1;i <= m; i++){  
+             	scanf("%d",&b[i]);   // 不能用差分数组直接读取！！！！！！！！！！！！！
+            if(i <= b[i]) b[1] += 1,b[i + 1] -= 1;   // 防止数组越界
+            else b[i - b[i] + 1] += 1, b[i + 1] -= 1;
+        }
+        for(int i = 1;i <= m;i ++){
+            b[i] += b[i-1];
+            printf("%d ",!!b[i]);
+        }
+        cout << endl;
     }
-    
+    return 0;
+}
+```
+
+### 输入
+
+```
+1
+6
+0 3 0 0 1 3
+```
+
+### 输出（不用差分数组读取，正确！）
+
+```
+b[1] = 1 b[2] = 0 b[3] = -1 b[4] = 1 b[5] = 1 b[6] = -1 
+a[1] = 1 a[2] = 1 a[3] = 0 a[4] = 1 a[5] = 1 a[6] = 1  
+```
+
+### 输出（用差分数组读取，错误！）
+
+```
+b[1] = 1 b[2] = 3 b[3] = 0 b[4] = 0 b[5] = 1 b[6] = 3 
+a[1] = 1 a[2] = 1 a[3] = 1 a[4] = 1 a[5] = 1 a[6] = 1 
+```
+
+*****************
+
+## 2.错误实例二！！！
+
+```C++
+#include<iostream>
+#include<cstring>
+using namespace std;
+const int N = 20010;
+int n,m，b[N];
+int main()
+{
+    cin >> m; 
+    while(m -- ){ 
+        cin >> n; 
+        memset(b,0,sizeof b;
+        for(int i = 1;i <= n;i ++){
+            int x;
+            scanf("%d",&x);
+            if(i <= x) b[1] += 1;      // 错误！！！ 虽然此时的 x >= i,但是读取还未结束，正确代码： if(i <= x) b[1] += 1, b[i+1] -=1; 
+            else b[i - x + 1] += 1,b[i + 1] -=1;
+        }
+        for(int i = 1;i <= n; i++){
+             b[i] += b[i-1];
+             printf("%d ",!!b[i]);
+        }
+        cout<<endl; 
+    }
+    return 0;
+}
+```
+
+*******
+
+## 3.最终代码
+
+```C++
+#include<iostream>
+#include<cstring>
+using namespace std;
+const int N = 200010;
+int b[N],n,m;
+
+int main()
+{
+    cin >> n;
+    while(n -- ){
+        cin >> m;
+        memset(b,0,sizeof b);
+        for(int i = 1;i <= m; i++){
+            int x;
+            scanf("%d",&x); 
+            if(i <= x) b[1] += 1,b[i + 1] -= 1;    // 防止数组越界！
+            else b[i - x + 1] += 1, b[i + 1] -= 1; 
+        }
+        for(int i = 1;i <= m;i ++){
+            b[i] += b[i-1];
+            printf("%d ",!!b[i]);
+        }
+        cout << endl;
+    }
     return 0;
 }
 ```
