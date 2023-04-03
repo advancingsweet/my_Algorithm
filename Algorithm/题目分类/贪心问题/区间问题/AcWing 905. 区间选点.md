@@ -4,6 +4,8 @@
 
 > **[AcWing 908. 最大不相交区间数量.md (github.com)](https://github.com/advancingsweet/my_Algorithm/blob/main/Algorithm/AcWing/算法基础课/贪心算法/AcWing 908. 最大不相交区间数量.md)**  **（一定一定看此篇总结！！！）**
 >
+> ![image-20230330213230585](C:\Users\Hongwei Tang\AppData\Roaming\Typora\typora-user-images\image-20230330213230585.png)
+>
 > **思路：**
 >
 > 1.利用结构体存储区间
